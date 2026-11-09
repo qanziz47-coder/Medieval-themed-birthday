@@ -21,13 +21,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         
         {/* Toaster untuk Notifikasi */}
         <Toaster 
-          position="top-center" 
+          position="top-right" 
           toastOptions={{
+            className: "font-garamond",
             style: {
-              background: '#1a120b',
-              color: '#fcd34d',
-              border: '1px solid #d4af37',
-              fontFamily: 'var(--font-garamond)',
+              background: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
             },
           }}
         />

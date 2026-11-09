@@ -7,6 +7,8 @@ import confetti from 'canvas-confetti';
 import PixelCastle from '@/components/PixelCastle';
 import dynamic from 'next/dynamic';
 import { toast } from 'sonner';
+import CustomToast from '@/components/CustomToast'; // <-- Tambahkan ini
+import { CheckCircle2, Info, AlertTriangle, XCircle } from 'lucide-react'; // Opsional, untuk ikon
 
 // Import komponen 3D secara dinamis agar tidak error saat SSR
 const MagicBook3D = dynamic(() => import('@/components/MagicBook3D'), { 
@@ -88,23 +90,52 @@ export default function HomePage() {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
-        toast.info('Suara dijeda', { description: 'Ambience hutan dihentikan sementara.' });
+        // Notifikasi Jeda
+        toast.custom((t) => (
+          <CustomToast 
+            type="info"
+            title="Suara Dijeda" 
+            description="Ambience hutan dihentikan sementara." 
+          />
+        ));
       } else {
         audioRef.current.play();
-        toast.success('Suara dinyalakan', { description: 'Selamat datang di hutan kastil.' });
+        // Notifikasi Nyala
+        toast.custom((t) => (
+          <CustomToast 
+            type="success"
+            title="Suara Dinyalakan" 
+            description="Selamat datang di hutan kastil." 
+          />
+        ));
       }
       setIsPlaying(!isPlaying);
     } else {
-      toast.error('Audio tidak ditemukan', { description: 'Pastikan file ambience.mp3 ada di folder public.' });
+      // Notifikasi Error
+      toast.custom((t) => (
+        <CustomToast 
+          type="error"
+          title="Audio Tidak Ditemukan" 
+          description="Pastikan file ambience.mp3 ada di folder public." 
+        />
+      ));
     }
   };
 
   const handleOpenGift = () => {
     if (timeLeft.isTimeUp) {
+      // Notifikasi Sukses
+      toast.custom((t) => (
+        <CustomToast 
+          type="success"
+          title="Gerbang Terbuka!" 
+          description="Selamat datang di petualangan takdir." 
+        />
+      ));
       confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#d4af37', '#8b0000', '#ffffff'] });
       setTimeout(() => router.push('/gift'), 1000);
     }
-  };
+  };  
 
   const pad = (num: number) => String(num).padStart(2, '0');
 
@@ -240,11 +271,21 @@ export default function HomePage() {
                   handleOpenGift();
                 } else {
                   // Jika belum waktunya, getarkan tombol
+                                   // Jika belum waktunya, getarkan tombol
                   const btn = document.getElementById('locked-btn');
                   if (btn) {
                     btn.classList.add('animate-shake');
                     setTimeout(() => btn.classList.remove('animate-shake'), 400);
                   }
+                  
+                  // Notifikasi Peringatan
+                  toast.custom((t) => (
+                    <CustomToast 
+                      type="warning"
+                      title="Gerbang Masih Terkunci" 
+                      description="Sabar ya, waktu yang ditentukan belum tiba." 
+                    />
+                  ));
                 }
               }}
               id="locked-btn"
@@ -367,7 +408,7 @@ export default function HomePage() {
               <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1 }} className="absolute top-[50%] left-[5%] w-64 group">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-[#d4c4a8] border-2 border-[#5c4033] rounded-full flex items-center justify-center shadow-sm z-10 group-hover:scale-110 transition-transform">
-                    <span className="text-lg">⛺</span>
+                    <span className="text-lg">👶</span>
                   </div>
                   <div className="font-garamond">
                     <h3 className="text-[#8b0000] font-bold text-2xl leading-none mb-1">2009</h3>
@@ -379,13 +420,13 @@ export default function HomePage() {
 
               <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1, delay: 0.2 }} className="absolute top-[20%] left-[25%] w-64 group">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-[#d4c4a8] border-2 border-[#5c4033] rounded-full flex items-center justify-center shadow-sm z-10 group-hover:scale-110 transition-transform">
-                    <span className="text-lg">⚙️</span>
+                  <div className="w-20 h-10 bg-[#d4c4a8] border-2 border-[#5c4033] rounded-full flex items-center justify-center shadow-sm z-10 group-hover:scale-110 transition-transform">
+                    <span className="text-lg">🏰</span>
                   </div>
                   <div className="font-garamond">
-                    <h3 className="text-[#8b0000] font-bold text-2xl leading-none mb-1">2023</h3>
-                    <h4 className="text-[#3e2723] font-bold text-xl leading-none">Artefak IoT</h4>
-                    <p className="text-[#5c4033] italic text-sm mt-1">Merakit Arduino.</p>
+                    <h3 className="text-[#8b0000] font-bold text-2xl leading-none mb-1">2016</h3>
+                    <h4 className="text-[#3e2723] font-bold text-xl leading-none">AKu masuk SD/MI</h4>
+                    <p className="text-[#5c4033] italic text-sm mt-1">aku juga awalnya tertarik sama komputer dan mesin gara gara minecraft</p>
                   </div>
                 </div>
               </motion.div>
@@ -396,9 +437,9 @@ export default function HomePage() {
                     <span className="text-lg">🏰</span>
                   </div>
                   <div className="font-garamond">
-                    <h3 className="text-[#8b0000] font-bold text-2xl leading-none mb-1">2025</h3>
-                    <h4 className="text-[#3e2723] font-bold text-xl leading-none">Akademi</h4>
-                    <p className="text-[#5c4033] italic text-sm mt-1">Masuk SMK RPL.</p>
+                    <h3 className="text-[#8b0000] font-bold text-2xl leading-none mb-1">2022</h3>
+                    <h4 className="text-[#3e2723] font-bold text-xl leading-none">Masuk SMP</h4>
+                    <p className="text-[#5c4033] italic text-sm mt-1">nah disini aku suka masa masa smp walapun agak goblok juga tapi kangen</p>
                   </div>
                 </div>
               </motion.div>
@@ -406,12 +447,12 @@ export default function HomePage() {
               <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1, delay: 0.6 }} className="absolute top-[25%] left-[65%] w-64 group">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-[#d4c4a8] border-2 border-[#5c4033] rounded-full flex items-center justify-center shadow-sm z-10 group-hover:scale-110 transition-transform">
-                    <span className="text-lg">📡</span>
+                    <span className="text-lg">🏰</span>
                   </div>
                   <div className="font-garamond">
-                    <h3 className="text-[#8b0000] font-bold text-2xl leading-none mb-1">2026</h3>
-                    <h4 className="text-[#3e2723] font-bold text-xl leading-none">Ramalan RFID</h4>
-                    <p className="text-[#5c4033] italic text-sm mt-1">Hardware & DB.</p>
+                    <h3 className="text-[#8b0000] font-bold text-2xl leading-none mb-1">2025</h3>
+                    <h4 className="text-[#3e2723] font-bold text-xl leading-none">Masuk SMK</h4>
+                    <p className="text-[#5c4033] italic text-sm mt-1">Antara suka sama tidak masuk smk ini sekolahnya</p>
                   </div>
                 </div>
               </motion.div>
@@ -424,7 +465,7 @@ export default function HomePage() {
                   <div className="font-garamond">
                     <h3 className="text-[#8b0000] font-bold text-2xl leading-none mb-1">Masa Depan</h3>
                     <h4 className="text-[#3e2723] font-bold text-xl leading-none">Perisai Siber</h4>
-                    <p className="text-[#5c4033] italic text-sm mt-1">Pelindung Data.</p>
+                    <p className="text-[#5c4033] italic text-sm mt-1">menjadi seorang siber</p>
                   </div>
                 </div>
               </motion.div>
@@ -436,11 +477,11 @@ export default function HomePage() {
               <div className="absolute left-8 top-0 bottom-0 w-1 border-l-4 border-dotted border-[#8b0000] opacity-40" />
               <div className="flex gap-4 items-center">
                 <div className="w-12 h-12 shrink-0 bg-[#d4c4a8] border-2 border-[#5c4033] rounded-full flex items-center justify-center z-10"><span className="text-xl">⛺</span></div>
-                <div className="font-garamond"><h3 className="text-[#8b0000] font-bold text-lg">2009</h3><p className="text-base italic">Awal Mula Kehidupan</p></div>
+                <div className="font-garamond"><h3 className="text-[#8b0000] font-bold text-lg">2009</h3><p className="text-base italic">Awal Mula Kehidupan ini</p></div>
               </div>
               <div className="flex gap-4 items-center">
                 <div className="w-12 h-12 shrink-0 bg-[#d4c4a8] border-2 border-[#5c4033] rounded-full flex items-center justify-center z-10"><span className="text-xl">⚙️</span></div>
-                <div className="font-garamond"><h3 className="text-[#8b0000] font-bold text-lg">2023</h3><p className="text-base italic">Artefak IoT</p></div>
+                <div className="font-garamond"><h3 className="text-[#8b0000] font-bold text-lg">2022</h3><p className="text-base italic">Aku masuk sekolah smp</p></div>
               </div>
               <div className="flex gap-4 items-center">
                 <div className="w-12 h-12 shrink-0 bg-[#d4c4a8] border-2 border-[#5c4033] rounded-full flex items-center justify-center z-10"><span className="text-xl">🏰</span></div>
@@ -537,7 +578,7 @@ export default function HomePage() {
                 </div>
               </motion.div>
 
-              {/* MISI 2: SMK RPL (Sekolah Saat Ini) */}
+              {/* MISI 2: SMK RPL */}
               <motion.div 
                 initial={{ opacity: 0, rotate: 2, y: 20 }}
                 whileInView={{ opacity: 1, rotate: 1, y: 0 }}
@@ -547,13 +588,13 @@ export default function HomePage() {
                 <div className="absolute top-2 left-1/2 -translate-x-1/2 w-6 h-6 bg-[#555] rounded-full shadow-md border-2 border-[#2c1e16] z-20" />
                 
                 <div className="text-center mb-4">
-                  <span className="inline-block px-3 py-1 bg-[#5c4033] text-[#d4af37] font-cinzel text-sm mb-2">MASA DEPAN</span>
-                  <h3 className="text-2xl font-medieval text-[#3e2723] border-b-2 border-[#3e2723]/30 pb-2">SMK RPL</h3>
+                  <span className="inline-block px-3 py-1 bg-[#5c4033] text-[#d4af37] font-cinzel text-sm mb-2">MASA KINI</span>
+                  <h3 className="text-2xl font-medieval text-[#3e2723] border-b-2 border-[#3e2723]/30 pb-2">SMK AN NUR DEPOK</h3>
                 </div>
 
                 <div className="w-full h-40 bg-[#2c1e16] border-2 border-black mb-4 relative overflow-hidden">
                    <img 
-                    src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=500&auto=format&fit=crop" 
+                    src="https://i.pinimg.com/736x/b5/d2/c1/b5d2c125a5c48ba001c9e935b98ac565.jpg" 
                     alt="SMK" 
                     className="w-full h-full object-cover sepia-[0.5] opacity-70 hover:opacity-100 transition-all duration-500"
                   />
@@ -561,12 +602,12 @@ export default function HomePage() {
                 </div>
 
                 <p className="text-[#5c4033] font-garamond italic text-base leading-relaxed mb-4">
-                  "Akademi Penyihir Kode. Menempa mantra HTML, CSS, JS, hingga merangkai logika backend dan Cybersecurity."
+                  "awal mulanya aku terjun ke dunia komputer ini, tapi jujur aku kurang suka sama se**lah*ya"
                 </p>
 
                 <div className="mt-auto flex flex-col gap-2 border-t border-[#3e2723]/30 pt-3 text-[#3e2723] font-cinzel text-sm font-bold">
                   <div className="flex justify-between items-center">
-                    <span className="flex items-center gap-1">LEVEL: <span className="text-lg text-[#8b0000]">85</span></span>
+                    <span className="flex items-center gap-1">LEVEL: <span className="text-lg text-[#8b0000]">50</span></span>
                     <span className="flex items-center gap-1">STATUS: <span className="text-amber-600">ONGOING</span></span>
                   </div>
                   <div className="flex justify-between items-center text-xs">
@@ -611,8 +652,8 @@ export default function HomePage() {
               transition={{ duration: 0.8 }}
               className="bg-[#f4ebd9] p-4 pb-12 shadow-2xl relative group hover:rotate-0 transition-transform duration-500"
             >
-              <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=500&auto=format&fit=crop" alt="Kenangan 1" className="w-full aspect-square object-cover sepia-[0.3] group-hover:sepia-0 transition-all duration-500" />
-              <p className="absolute bottom-4 left-0 right-0 text-center font-garamond italic text-[#3e2723] text-lg">Bersama Teman Sekelas</p>
+              <img src="/1.jpeg" alt="Kenangan 1" className="w-full aspect-square object-cover sepia-[0.3] group-hover:sepia-0 transition-all duration-500" />
+              <p className="absolute bottom-4 left-0 right-0 text-center font-garamond italic text-[#3e2723] text-lg">ujian praktik bahasa inggris </p>
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-6 bg-[#d4af37]/60 rotate-2" />
             </motion.div>
 
@@ -623,8 +664,8 @@ export default function HomePage() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="bg-[#f4ebd9] p-4 pb-12 shadow-2xl relative group hover:rotate-0 transition-transform duration-500 md:translate-y-8"
             >
-              <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=500&auto=format&fit=crop" alt="Kenangan 2" className="w-full aspect-square object-cover sepia-[0.3] group-hover:sepia-0 transition-all duration-500" />
-              <p className="absolute bottom-4 left-0 right-0 text-center font-garamond italic text-[#3e2723] text-lg">Proyek Pertama</p>
+              <img src="/2.jpeg" alt="Kenangan 2" className="w-full aspect-square object-cover sepia-[0.3] group-hover:sepia-0 transition-all duration-500" />
+              <p className="absolute bottom-4 left-0 right-0 text-center font-garamond italic text-[#3e2723] text-lg">absrud banget gww</p>
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-6 bg-[#d4af37]/60 -rotate-1" />
             </motion.div>
 
@@ -635,9 +676,57 @@ export default function HomePage() {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="bg-[#f4ebd9] p-4 pb-12 shadow-2xl relative group hover:rotate-0 transition-transform duration-500"
             >
-              <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=500&auto=format&fit=crop" alt="Kenangan 3" className="w-full aspect-square object-cover sepia-[0.3] group-hover:sepia-0 transition-all duration-500" />
-              <p className="absolute bottom-4 left-0 right-0 text-center font-garamond italic text-[#3e2723] text-lg">Momen Tak Terlupakan</p>
+              <img src="/3.jpeg" alt="Kenangan 3" className="w-full aspect-square object-cover sepia-[0.3] group-hover:sepia-0 transition-all duration-500" />
+              <p className="absolute bottom-4 left-0 right-0 text-center font-garamond italic text-[#3e2723] text-lg">jadi kangen behh</p>
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-6 bg-[#d4af37]/60 rotate-3" />
+            </motion.div>
+
+            {/* Foto 4 */}
+            <motion.div 
+              initial={{ opacity: 0, rotate: -2, y: 50 }}
+              whileInView={{ opacity: 1, rotate: -4, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="bg-[#f4ebd9] p-4 pb-12 shadow-2xl relative group hover:rotate-0 transition-transform duration-500"
+            >
+              <img src="/4.jpeg" alt="Kenangan 3" className="w-full aspect-square object-cover sepia-[0.3] group-hover:sepia-0 transition-all duration-500" />
+              <p className="absolute bottom-4 left-0 right-0 text-center font-garamond italic text-[#3e2723] text-lg">ini pas masak masak</p>
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-6 bg-[#d4af37]/60 rotate-3" />
+            </motion.div>
+
+            {/* Foto 5 */}
+            <motion.div 
+              initial={{ opacity: 0, rotate: 5, y: 50 }}
+              whileInView={{ opacity: 1, rotate: 2, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="bg-[#f4ebd9] p-4 pb-12 shadow-2xl relative group hover:rotate-0 transition-transform duration-500 md:translate-y-8"
+            >
+              <img src="/5.jpeg" alt="Kenangan 2" className="w-full aspect-square object-cover sepia-[0.3] group-hover:sepia-0 transition-all duration-500" />
+              <p className="absolute bottom-4 left-0 right-0 text-center font-garamond italic text-[#3e2723] text-lg">my kelas</p>
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-6 bg-[#d4af37]/60 -rotate-1" />
+            </motion.div>
+
+            {/* Foto 6 */}
+            <motion.div 
+              initial={{ opacity: 0, rotate: -5, y: 50 }}
+              whileInView={{ opacity: 1, rotate: -3, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="bg-[#f4ebd9] p-4 pb-12 shadow-2xl relative group hover:rotate-0 transition-transform duration-500"
+            >
+              <img src="/6.jpeg" alt="Kenangan 1" className="w-full aspect-square object-cover sepia-[0.3] group-hover:sepia-0 transition-all duration-500" />
+              <p className="absolute bottom-4 left-0 right-0 text-center font-garamond italic text-[#3e2723] text-lg">ujian praktik bahasa indonesia </p>
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-6 bg-[#d4af37]/60 rotate-2" />
+            </motion.div>
+
+            {/* Foto 7 */}
+            <motion.div 
+              initial={{ opacity: 0, rotate: 5, y: 50 }}
+              whileInView={{ opacity: 1, rotate: 2, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="bg-[#f4ebd9] p-4 pb-12 shadow-2xl relative group hover:rotate-0 transition-transform duration-500 md:translate-y-8"
+            >
+              <img src="/7.jpeg" alt="Kenangan 2" className="w-full aspect-square object-cover sepia-[0.3] group-hover:sepia-0 transition-all duration-500" />
+              <p className="absolute bottom-4 left-0 right-0 text-center font-garamond italic text-[#3e2723] text-lg">okey foto bersama</p>
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-6 bg-[#d4af37]/60 -rotate-1" />
             </motion.div>
 
           </div>
@@ -651,7 +740,200 @@ export default function HomePage() {
       </section>
 
       {/* ========================================= */}
-      {/* SECTION 6: AKHIR 2026 (PUNCAK TAKDIR)     */}
+      {/* SECTION 6: MY SETUP (ALTAR SIHIR)         */}
+      {/* ========================================= */}
+<section className="relative z-10 min-h-screen flex flex-col items-center justify-center p-6 md:p-12 bg-[#0a0502] overflow-hidden border-t border-[#d4af37]/10">
+        
+        {/* Background Dinding Batu */}
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/brick-wall.png')] opacity-20 mix-blend-overlay pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(212,175,55,0.05)_0%,_transparent_70%)] pointer-events-none" />
+        
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 1 }}
+          className="relative z-10 max-w-6xl w-full"
+        >
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-cinzel font-bold text-[#d4af37] tracking-widest drop-shadow-[0_0_20px_rgba(212,175,55,0.5)] mb-4">
+              ALTAR SIHIR
+            </h2>
+            <p className="text-amber-100/60 font-garamond text-xl md:text-2xl italic">
+              Tempat di mana mantra-mantra kode diracik setiap hari.
+            </p>
+            <div className="w-32 h-px bg-gradient-to-r from-transparent via-[#d4af37] to-transparent mx-auto mt-6" />
+          </div>
+
+          {/* Grid Foto Setup (Polaroid Style) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+            
+            {/* Foto 1: Meja Utama */}
+            <motion.div 
+              initial={{ opacity: 0, rotate: -3, y: 50 }}
+              whileInView={{ opacity: 1, rotate: -2, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="bg-[#f4ebd9] p-4 pb-16 shadow-2xl relative group hover:rotate-0 transition-transform duration-500"
+            >
+              {/* Ganti URL dengan foto setup-mu */}
+              <img 
+                src="/setup/1.jpeg" 
+                alt="Setup Utama" 
+                className="w-full aspect-[4/3] object-cover sepia-[0.3] group-hover:sepia-0 transition-all duration-500 border border-[#3e2723]/30" 
+              />
+              <p className="absolute bottom-6 left-0 right-0 text-center font-garamond italic text-[#3e2723] text-xl font-bold">
+                ini setup masa kini semoga
+              </p>
+              <p className="absolute bottom-2 left-0 right-0 text-center font-garamond text-[#5c4033] text-sm">
+                "Tempat saat ini."
+              </p>
+              {/* Selotip Emas */}
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-20 h-6 bg-[#d4af37]/70 rotate-2 backdrop-blur-sm" />
+            </motion.div>
+
+            {/* Foto 2: Monitor / Detail */}
+            <motion.div 
+              initial={{ opacity: 0, rotate: 3, y: 50 }}
+              whileInView={{ opacity: 1, rotate: 2, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="bg-[#f4ebd9] p-4 pb-16 shadow-2xl relative group hover:rotate-0 transition-transform duration-500 md:translate-y-8"
+            >
+              <img 
+                src="/setup/2.jpeg" 
+                alt="Monitor" 
+                className="w-full aspect-[4/3] object-cover sepia-[0.3] group-hover:sepia-0 transition-all duration-500 border border-[#3e2723]/30" 
+              />
+              <p className="absolute bottom-6 left-0 right-0 text-center font-garamond italic text-[#3e2723] text-xl font-bold">
+                setup sebulan yang lalu
+              </p>
+              <p className="absolute bottom-2 left-0 right-0 text-center font-garamond text-[#5c4033] text-sm">
+                "gak terlalu suka posisinya"
+              </p>
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-20 h-6 bg-[#d4af37]/70 -rotate-1 backdrop-blur-sm" />
+            </motion.div>
+
+            {/* Foto 3: Detail Keyboard / PC */}
+            <motion.div 
+              initial={{ opacity: 0, rotate: -2, y: 50 }}
+              whileInView={{ opacity: 1, rotate: -3, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="bg-[#f4ebd9] p-4 pb-16 shadow-2xl relative group hover:rotate-0 transition-transform duration-500"
+            >
+              <img 
+                src="/setup/3.jpeg" 
+                alt="Detail" 
+                className="w-full aspect-[4/3] object-cover sepia-[0.3] group-hover:sepia-0 transition-all duration-500 border border-[#3e2723]/30" 
+              />
+              <p className="absolute bottom-6 left-0 right-0 text-center font-garamond italic text-[#3e2723] text-xl font-bold">
+                lumayan
+              </p>
+              <p className="absolute bottom-2 left-0 right-0 text-center font-garamond text-[#5c4033] text-sm">
+                "lumayan suka ini"
+              </p>
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-20 h-6 bg-[#d4af37]/70 rotate-2 backdrop-blur-sm" />
+            </motion.div>
+
+
+          {/* Foto 1: Meja Utama */}
+            <motion.div 
+              initial={{ opacity: 0, rotate: -3, y: 50 }}
+              whileInView={{ opacity: 1, rotate: -2, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="bg-[#f4ebd9] p-4 pb-16 shadow-2xl relative group hover:rotate-0 transition-transform duration-500"
+            >
+              {/* Ganti URL dengan foto setup-mu */}
+              <img 
+                src="/setup/4.jpeg" 
+                alt="Setup Utama" 
+                className="w-full aspect-[4/3] object-cover sepia-[0.3] group-hover:sepia-0 transition-all duration-500 border border-[#3e2723]/30" 
+              />
+              <p className="absolute bottom-6 left-0 right-0 text-center font-garamond italic text-[#3e2723] text-xl font-bold">
+                gak tau posisi kamera
+              </p>
+              <p className="absolute bottom-2 left-0 right-0 text-center font-garamond text-[#5c4033] text-sm">
+                "kekurangan cuma meja saja"
+              </p>
+              {/* Selotip Emas */}
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-20 h-6 bg-[#d4af37]/70 rotate-2 backdrop-blur-sm" />
+            </motion.div>
+
+            {/* Foto 2: Monitor / Detail */}
+            <motion.div 
+              initial={{ opacity: 0, rotate: 3, y: 50 }}
+              whileInView={{ opacity: 1, rotate: 2, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="bg-[#f4ebd9] p-4 pb-16 shadow-2xl relative group hover:rotate-0 transition-transform duration-500 md:translate-y-8"
+            >
+              <img 
+                src="/setup/5.jpeg" 
+                alt="Monitor" 
+                className="w-full aspect-[4/3] object-cover sepia-[0.3] group-hover:sepia-0 transition-all duration-500 border border-[#3e2723]/30" 
+              />
+              <p className="absolute bottom-6 left-0 right-0 text-center font-garamond italic text-[#3e2723] text-xl font-bold">
+                ini lumayan bagus
+              </p>
+              <p className="absolute bottom-2 left-0 right-0 text-center font-garamond text-[#5c4033] text-sm">
+                "pencahayaan gak terlalu bagus"
+              </p>
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-20 h-6 bg-[#d4af37]/70 -rotate-1 backdrop-blur-sm" />
+            </motion.div>
+
+            {/* Foto 3: Detail Keyboard / PC */}
+            <motion.div 
+              initial={{ opacity: 0, rotate: -2, y: 50 }}
+              whileInView={{ opacity: 1, rotate: -3, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="bg-[#f4ebd9] p-4 pb-16 shadow-2xl relative group hover:rotate-0 transition-transform duration-500"
+            >
+              <img 
+                src="/setup/6.jpeg" 
+                alt="Detail" 
+                className="w-full aspect-[4/3] object-cover sepia-[0.3] group-hover:sepia-0 transition-all duration-500 border border-[#3e2723]/30" 
+              />
+              <p className="absolute bottom-6 left-0 right-0 text-center font-garamond italic text-[#3e2723] text-xl font-bold">
+                nah ini
+              </p>
+              <p className="absolute bottom-2 left-0 right-0 text-center font-garamond text-[#5c4033] text-sm">
+                "tapi belum ada monitor 27 inch"
+              </p>
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-20 h-6 bg-[#d4af37]/70 rotate-2 backdrop-blur-sm" />
+            </motion.div>
+
+             {/* Foto 3: Detail Keyboard / PC */}
+            <motion.div 
+              initial={{ opacity: 0, rotate: -2, y: 50 }}
+              whileInView={{ opacity: 1, rotate: -3, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="bg-[#f4ebd9] p-4 pb-16 shadow-2xl relative group hover:rotate-0 transition-transform duration-500"
+            >
+              <img 
+                src="/setup/7.jpeg" 
+                alt="Detail" 
+                className="w-full aspect-[4/3] object-cover sepia-[0.3] group-hover:sepia-0 transition-all duration-500 border border-[#3e2723]/30" 
+              />
+              <p className="absolute bottom-6 left-0 right-0 text-center font-garamond italic text-[#3e2723] text-xl font-bold">
+                awal mulanya
+              </p>
+              <p className="absolute bottom-2 left-0 right-0 text-center font-garamond text-[#5c4033] text-sm">
+                "sekitar 2025 ini setup"
+              </p>
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-20 h-6 bg-[#d4af37]/70 rotate-2 backdrop-blur-sm" />
+            </motion.div>
+
+          </div>
+          
+          {/* Teks Bawah */}
+          <div className="text-center mt-20">
+            <p className="text-amber-100/50 font-garamond text-lg italic">
+              "Di balik layar ini, setiap baris kode adalah bagian dari takdir."
+            </p>
+          </div>
+
+        </motion.div>
+      </section>
+
+      {/* ========================================= */}
+      {/* SECTION 7: AKHIR 2026 (PUNCAK TAKDIR)     */}
       {/* ========================================= */}
       <section className="relative z-10 min-h-screen flex flex-col items-center justify-center p-6 md:p-12 bg-[#0a0502] overflow-hidden border-t border-[#d4af37]/20">
         
@@ -706,7 +988,7 @@ export default function HomePage() {
       </section>
 
       {/* ========================================= */}
-      {/* SECTION 7: FOOTER PROFESIONAL             */}
+      {/* SECTION 8: FOOTER PROFESIONAL             */}
       {/* ========================================= */}
       <footer className="relative z-10 bg-[#050302] border-t border-[#d4af37]/20 pt-16 pb-8 px-6 md:px-12">
         <div className="max-w-6xl mx-auto">
@@ -720,7 +1002,7 @@ export default function HomePage() {
                 magical world
               </h3>
               <p className="text-amber-100/60 font-garamond italic text-lg leading-relaxed max-w-sm">
-                Sebuah ruang digital yang menyimpan kenangan, perjalanan, dan mimpi dari seorang Penyihir Kode. Ditempa dengan ketekunan, dihiasi dengan keajaiban.
+                semoga aku menjadi manusia yang lebih baik lagi Aamiin...
               </p>
               
               {/* Ikon Sosial Media*/}

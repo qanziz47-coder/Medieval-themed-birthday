@@ -17,17 +17,11 @@ function SpellbookModel() {
     }
   });
 
+  // Data Skill (Kiri)
   const skills = [
-    { name: "Web Dev", val: 85 },
-    { name: "Backend", val: 60 },
-    { name: "Cyber Sec", val: 1 },
-  ];
-
-  const timeline = [
-    { year: "2023", event: "Artefak Arduino" },
-    { year: "2025", event: "Akademi Web" },
-    { year: "2026", event: "Ramalan RFID" },
-    { year: "Future", event: "Perisai Siber" },
+    { name: "ウェブ開発者", val: 85 },
+    { name: "バックハンド", val: 60 },
+    { name: "サイバー", val: 0.1 },
   ];
 
   return (
@@ -51,9 +45,8 @@ function SpellbookModel() {
       </group>
 
       {/* ======================= */}
-      {/* HALAMAN KERTAS (PARCHMENT) */}
+      {/* HALAMAN KIRI (SKILL)    */}
       {/* ======================= */}
-      
       <group position={[-2.2, 0.1, 0]} rotation={[0, 0.08, 0]}>
         <mesh castShadow receiveShadow>
           <boxGeometry args={[4.2, 5.4, 0.05]} />
@@ -61,7 +54,7 @@ function SpellbookModel() {
         </mesh>
         
         <Text position={[0, 2, 0.04]} fontSize={0.35} color="#3e2723" anchorX="center" fontStyle="italic">
-          SEGEL KEKUATAN
+          電力レベル
         </Text>
         <mesh position={[0, 1.5, 0.04]}>
           <planeGeometry args={[3.5, 0.03]} />
@@ -82,63 +75,74 @@ function SpellbookModel() {
             </mesh>
             <mesh position={[-1.8 + (3.6 * (s.val/100))/2, -0.2, 0.01]}>
               <planeGeometry args={[3.6 * (s.val/100), 0.06]} />
-              <meshBasicMaterial color={s.name === "Cyber Sec" ? "#8b0000" : "#d4af37"} />
+              <meshBasicMaterial color={s.name === "サイバー" ? "#8b0000" : "#d4af37"} />
             </mesh>
           </group>
         ))}
       </group>
 
+      {/* ======================= */}
+      {/* HALAMAN KANAN (JURNAL)  */}
+      {/* ======================= */}
       <group position={[2.2, 0.1, 0]} rotation={[0, -0.08, 0]}>
         <mesh castShadow receiveShadow>
           <boxGeometry args={[4.2, 5.4, 0.05]} />
           <meshStandardMaterial color="#e6d5b8" roughness={0.9} />
         </mesh>
         
+        {/* Judul Jurnal */}
         <Text position={[0, 2, 0.04]} fontSize={0.35} color="#3e2723" anchorX="center" fontStyle="italic">
-          JURNAL PERJALANAN
+          旅の記録
         </Text>
+        
+        {/* Garis Pembatas Judul */}
         <mesh position={[0, 1.5, 0.04]}>
           <planeGeometry args={[3.5, 0.03]} />
           <meshBasicMaterial color="#5c4033" />
         </mesh>
 
-        <mesh position={[-1.5, 0, 0.04]}>
-          <planeGeometry args={[0.03, 3.5]} />
-          <meshBasicMaterial color="#a89f91" />
-        </mesh>
+        {/* ISI JURNAL (Teks Paragraf) */}
+        <group position={[0, 0.5, 0.04]}>
+          {/* Paragraf 1 */}
+          <Text 
+            position={[0, 0.6, 0]} 
+            fontSize={0.12} 
+            color="#3e2723" 
+            maxWidth={3.5} 
+            lineHeight={1.5}
+            anchorX="center"
+            anchorY="top"
+            textAlign="justify"
+          >
+Kadang kehidupan tidak selalu berjalan sesuai harapan. Kita dituntut untuk tampak sempurna,
+namun justru tuntutan itulah yang kerap membuat hidup terasa begitu berat.
+Sebagai manusia, kita harus menyadari bahwa kita hanyalah makhluk yang lemah di hadapan Tuhan. 
+Justru dengan berdoa dan senantiasa memohon kepada-Nya, kita akan diberikan kemudahan dalam menjalani hidup.
+Begitu pula dengan umur. Setiap detik yang berlalu adalah anugerah, 
+dan setiap doa adalah penguat langkah kita. semoga kehidupan aku selanjutnya aku bisa lebih baik lagi dan 2027 akan menjadi 
+tahun mungkin lebih baik lagi dari 2026??
+          </Text>
+        </group>
 
-        {timeline.map((t, i) => (
-          <group key={i} position={[0, 0.8 - i * 1, 0.04]}>
-            <mesh position={[-1.5, 0, 0]}>
-              <circleGeometry args={[0.12, 16]} />
-              <meshBasicMaterial color={t.year === "Future" ? "#8b0000" : "#d4af37"} />
-            </mesh>
-            <Text position={[-1.3, 0.1, 0]} fontSize={0.2} color="#3e2723" anchorX="left">
-              {t.year}
-            </Text>
-            <Text position={[-1.3, -0.2, 0]} fontSize={0.16} color="#5c4033" anchorX="left">
-              {t.event}
-            </Text>
-          </group>
-        ))}
+        {/* Tanda Tangan */}
+        <Text position={[0, -2.2, 0.04]} fontSize={0.15} color="#5c4033" anchorX="center" fontStyle="italic">
+          - Fajri -
+        </Text>
       </group>
 
       {/* ======================= */}
       {/* TULANG BUKU & PITA      */}
       {/* ======================= */}
-      {/* Tulang Buku */}
       <mesh position={[0, 0, -0.1]} castShadow>
         <boxGeometry args={[0.4, 5.8, 0.3]} />
         <meshStandardMaterial color="#1a120b" roughness={0.6} />
       </mesh>
 
-      {/* Pita Merah Penutup Celah */}
       <mesh position={[0, 0, 0]} castShadow>
         <boxGeometry args={[0.5, 5.4, 0.1]} />
         <meshStandardMaterial color="#8b0000" roughness={0.5} />
       </mesh>
 
-      {/* Segel Emas di Tengah */}
       <mesh position={[0, 0, 0.06]} rotation={[Math.PI / 2, 0, 0]}>
         <cylinderGeometry args={[0.4, 0.4, 0.05, 32]} />
         <meshStandardMaterial color="#d4af37" metalness={0.8} roughness={0.2} />
@@ -155,7 +159,6 @@ function SpellbookModel() {
 
 export default function MagicBook3D() {
   return (
-    // Border dan background gelap dihapus/dibuat transparan
     <div className="w-full h-[700px] cursor-move relative">
       
       <Canvas shadows camera={{ position: [0, 4, 14], fov: 45 }}>

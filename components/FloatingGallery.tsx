@@ -93,10 +93,10 @@ export default function FloatingGallery() {
         className="absolute top-0 left-0 right-0 p-6 text-center pointer-events-none z-10 bg-gradient-to-b from-[#050302] to-transparent"
       >
         <h1 className="text-3xl md:text-5xl font-cinzel font-bold text-[#d4af37] drop-shadow-[0_0_15px_rgba(212,175,55,0.8)] tracking-widest">
-          RUANG ARTEFAK
+          Foto apa gak tau
         </h1>
         <p className="text-amber-200/60 mt-2 text-sm md:text-lg font-garamond italic">
-          Kenangan yang terukir abadi di dalam dinding kastil.
+          ini jadi kenang kenangan.
         </p>
       </motion.div>
 
