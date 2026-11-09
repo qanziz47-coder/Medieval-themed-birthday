@@ -1,5 +1,8 @@
 @import "tailwindcss";
-
+@theme {
+  --font-cinzel: var(--font-cinzel);
+  --font-lancelot: var(--font-lancelot);
+}
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -23,4 +26,46 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Hujan Deras (Jatuh cepat dan miring) */
+@keyframes rainFallFast {
+  0% { transform: translateY(-10vh) translateX(0); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.8; }
+  100% { transform: translateY(110vh) translateX(-15vw); opacity: 0; }
+}
+
+/* Hujan Rintik (Jatuh lambat) */
+@keyframes rainFallSlow {
+  0% { transform: translateY(-10vh) translateX(0); opacity: 0; }
+  10% { opacity: 0.4; }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(110vh) translateX(-10vw); opacity: 0; }
+}
+
+/* Efek Percikan Air di Tanah */
+@keyframes splash {
+  0% { transform: scale(0); opacity: 0.8; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+/* Efek Kabut Bergerak */
+@keyframes fogMove {
+  0% { transform: translateX(-10%); }
+  50% { transform: translateX(10%); }
+  100% { transform: translateX(-10%); }
+}
+
+/* Animasi Getar (Shake) */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.animate-shake {
+  animation: shake 0.4s ease-in-out;
 }
